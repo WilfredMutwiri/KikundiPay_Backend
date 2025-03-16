@@ -4,15 +4,15 @@ const bcrypt=require('bcrypt');
 // signin
 const signin = async (req, res) => {
     try {
-    let { email, password } = req.body;
-    email = email.trim();
+    let {username, password } = req.body;
+    username = username.trim();
     password = password.trim();
 
-    if (!email || !password) {
+    if (!username || !password) {
         return res.status(400).json({ message: "Invalid input" });
     }
     // check if user exists
-    const userExists=await User.findOne({email});
+    const userExists=await User.findOne({username});
     if(!userExists){
         return res.status(400).json({message: 'User does not exist'});
     };
