@@ -13,7 +13,11 @@ const contributionSchema=new Schema({
     message:{
         type:String,
         required:true
-    },      
+    }, 
+    username:{
+        type:String,
+        required:true
+    }     
 });
 
 const Contribution=mongoose.model('Contribution',contributionSchema);

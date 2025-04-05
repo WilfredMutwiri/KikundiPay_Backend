@@ -1,12 +1,15 @@
 const express=require('express');
-const User = require('../model');
+const User = require('./model');
 const bcrypt = require('bcrypt');
 // signup
 const signup= async(req, res) => {
-    let {username, email, password} = req.body;
+    let {username, email, password,phoneNo,groupName,userRole} = req.body;
     username=username.trim();
     email=email.trim();
     password=password.trim();
+    phoneNo=phoneNo.trim();
+    groupName=groupName.trim();
+    userRole=userRole.trim();
 
     if(!(username && email && password)){
       return res.status(400).json({message: 'All fields are required'});
@@ -30,7 +33,10 @@ const signup= async(req, res) => {
       const newUser = new User({ 
         username,
         email, 
-        password: hashedPassword 
+        password: hashedPassword, 
+        phoneNo,
+        groupName,
+        userRole
       });
       const createdUser= await newUser.save();
       //send response
@@ -43,4 +49,20 @@ const signup= async(req, res) => {
       }
 }; 
 
-module.exports = { signup };
+const getUserDetails=async(req,res)=>{
+const {username}=req.params;
+
+try {
+  const userDetails=await User.findOne({username});
+  return res.status(200).json({userDetails})
+} catch (error) {
+  return res.status(400).json({message:error.message})
+}
+
+}
+
+module.exports = { 
+  signup,
+  getUserDetails
+
+};

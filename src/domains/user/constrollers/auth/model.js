@@ -15,9 +15,18 @@ const userSchema=new Schema({
         type:String,
         required:true
     },      
-    // token:{
-    //     type:String
-    // }
+    phoneNo:{
+    type:Number,
+    required:true
+},
+groupName:{
+    type:String,
+    required:true
+},
+userRole:{
+    type:String,
+    required:true
+}
 });
 
 const User=mongoose.model('User',userSchema);

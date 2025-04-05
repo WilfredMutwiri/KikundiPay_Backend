@@ -1,4 +1,4 @@
-const User = require('../model');
+const User = require('./model');
 const jwt=require('jsonwebtoken');
 const bcrypt=require('bcrypt');
 // signin
@@ -24,10 +24,10 @@ const signin = async (req, res) => {
     // generate token
     const token=jwt.sign({id:userExists._id},process.env.JWT_SECRET);
     // send response
-    // res.status(200).json({message: 'User signed in'});
     return res.status(200).json({
         success: true,
         token: token,
+        username:username,
         message: 'User signed in successfully'
     });
         

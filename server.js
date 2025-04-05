@@ -9,7 +9,7 @@ const router = require("./src/domains/user/routes");
 
 app.use(express.json());
 app.use(cors());
-app.use("/api/users",router);
+app.use("/api/v1",router);
 // connect to mongodb
 const connectDB=async()=>{
     try {
