@@ -1,4 +1,4 @@
-const Group=require('./model.jsx');
+const Group=require('../../models/groupModel');
 
 const addGroup=async(req,res)=>{
     let {name,members,shortname}=req.body;

@@ -1,4 +1,4 @@
-const Contribution = require('./model');
+const Contribution = require('../../models/contributionsModel');
 
 const addContribution=async(req,res)=>{
     let {amount,date,message,username}=req.body;
