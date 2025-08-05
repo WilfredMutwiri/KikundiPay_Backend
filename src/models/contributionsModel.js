@@ -1,24 +1,31 @@
-const mongoose=require('mongoose');
-const Schema=mongoose.Schema;
-
-const contributionSchema=new Schema({
-    amount:{
-        type:Number,
-        required:true
-    },  
-    date:{
-        type:String,
-        required:true,
-    },  
-    message:{
-        type:String,
-        required:true
-    }, 
-    username:{
-        type:String,
-        required:true
-    }     
+const mongoose = require("mongoose");
+const contributionSchema = new mongoose.Schema({
+  amount: {
+    type: Number,
+    required: true,
+    min: 0,
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+  type: {
+    type: String,
+    enum: ["GROUP", "LOAN_REPAYMENT"],
+    default: "GROUP",
+    required: true,
+  },
+  member: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+  },
 });
 
-const Contribution=mongoose.model('Contribution',contributionSchema);
-module.exports=Contribution;
+contributionSchema.pre("save", function (next) {
+  this.updatedAt = Date.now();
+  next();
+});
+
+const contributionModel = mongoose.model("Contribution", contributionSchema);
+module.exports = contributionModel;

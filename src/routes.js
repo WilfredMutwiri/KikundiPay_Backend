@@ -32,9 +32,9 @@ router.post("/user/requestOTP/",requestOTP)
 router.post("/user/resetPassword/",resetPassword)
 
 // contributions
-// router.post('/addContribution',addContribution);
-// router.get('/getContributions',getContributions);
-// router.get('/getUserContributions/:username',getUserContributions);
+router.post('/payments/addContribution/',addContribution);
+router.get('/payments/getContributions',getContributions);
+router.get('/payments/getUserContributions/:id',getUserContributions);
 
 // group management
 // router.post('/addGroup',addGroup);

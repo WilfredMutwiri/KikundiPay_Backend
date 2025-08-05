@@ -5,6 +5,7 @@ const bcrypt = require("bcrypt");
 const userSignin = async (req, res) => {
   try {
     let { username, password } = req.body;
+    
     username = username.trim();
     password = password.trim();
 
@@ -24,6 +25,7 @@ const userSignin = async (req, res) => {
       success: true,
       token: token,
       username: username,
+      id:userExists._id,
       message: "User signed in successfully",
     });
   } catch (error) {
