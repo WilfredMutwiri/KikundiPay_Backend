@@ -22,6 +22,7 @@ const { requestOTP } = require("./controllers/auth/requestOTP.js");
 
 const express = require("express");
 const { resetPassword } = require("./controllers/auth/resetPassword.js");
+const { paystackInit, verifyPayment } = require("./controllers/contributions/paystack.js");
 const router = express.Router();
 
 // authentication
@@ -35,6 +36,10 @@ router.post("/user/resetPassword/",resetPassword)
 router.post('/payments/addContribution/',addContribution);
 router.get('/payments/getContributions',getContributions);
 router.get('/payments/getUserContributions/:id',getUserContributions);
+
+// paystack
+router.post('/payments/init/',paystackInit)
+router.post('/payments/verify/:reference',verifyPayment)
 
 // group management
 // router.post('/addGroup',addGroup);
