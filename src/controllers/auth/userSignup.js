@@ -1,8 +1,11 @@
 const express = require("express");
 const User = require("../../models/userModel");
 const bcrypt = require("bcrypt");
+const Notification = require("../../models/notifications");
 
 const userSignup = async (req, res) => {
+  const io = req.app.get("io");
+  
   let { username, email, password, phoneNo, groupName, userRole } = req.body;
   username = username.trim();
   email = email.trim();
@@ -34,6 +37,19 @@ const userSignup = async (req, res) => {
       userRole,
     });
     const createdUser = await newUser.save();
+
+    // notifications
+    const newNotification = await Notification.create({
+      user: createdUser._id,
+      title: "Account Created Successfully",
+      message: `Welcome aboard, ${username}! Your KikundiPay account is all set up.You can now participate in your group effectively!`,
+    });
+
+    io.emit("notification",{
+      title:newNotification.title,
+      message:newNotification.message,
+    });
+    
     return res.status(201).json({
       message: "User created successfully",
       user: createdUser,
