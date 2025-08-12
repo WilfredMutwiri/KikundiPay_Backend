@@ -56,8 +56,50 @@ const getUserContributions=async(req,res)=>{
 };
 
 
+
+// get user contributions by month
+const getUserContributionsByMonth = async (req, res) => {
+  const { userId, month, year } = req.params;
+
+  const monthInt = parseInt(month, 10);
+  const yearInt = parseInt(year, 10);
+
+  if (monthInt < 1 || monthInt > 12 || yearInt < 2000) {
+    return res.status(400).json({
+      message: "Invalid month or year",
+      success: false,
+    });
+  }
+
+  try {
+    const contributions = await Contribution.find({
+      member: userId,
+      createdAt: {
+        $gte: new Date(yearInt, monthInt - 1, 1),
+        $lt: new Date(yearInt, monthInt, 1),
+      },
+    }).populate("member");
+
+    const totalAmount = contributions.reduce((sum,item)=>sum+item.amount,0);
+    
+    return res.status(200).json({
+      message: "Contributions for the specified month fetched successfully!",
+      totalContributions:contributions.length,
+      totalAmount,
+      success: true,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: error.message,
+      success: false,
+    });
+  }
+};
+
+
 module.exports={
     addContribution,
     getContributions,
-    getUserContributions
+    getUserContributions,
+    getUserContributionsByMonth
 };

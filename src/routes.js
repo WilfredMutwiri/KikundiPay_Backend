@@ -7,6 +7,7 @@ const {
   addContribution,
   getContributions,
   getUserContributions,
+  getUserContributionsByMonth,
 } = require("./controllers/contributions/addContributions.js");
 
 const {
@@ -37,6 +38,7 @@ router.post("/user/resetPassword/",resetPassword)
 router.post('/payments/addContribution/',addContribution);
 router.get('/payments/getContributions',getContributions);
 router.get('/payments/getUserContributions/:id',getUserContributions);
+router.get('/payments/getUserContributionsByMonth/:userId/:month/:year',getUserContributionsByMonth); 
 
 // paystack
 router.post('/payments/init/',paystackInit)
