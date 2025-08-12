@@ -23,7 +23,7 @@ const { requestOTP } = require("./controllers/auth/requestOTP.js");
 const express = require("express");
 const { resetPassword } = require("./controllers/auth/resetPassword.js");
 const { paystackInit, verifyPayment } = require("./controllers/contributions/paystack.js");
-const { getUserNotifications } = require("./controllers/notifications/manageNotifications.js");
+const { getUserNotifications, markNotificationAsRead, deleteNotification } = require("./controllers/notifications/manageNotifications.js");
 const router = express.Router();
 
 // authentication
@@ -44,6 +44,8 @@ router.post('/payments/verify/:reference',verifyPayment)
 
 // notifications
 router.get('/user/notifications/list/:userId',getUserNotifications);
+router.patch('/user/notification/:notificationId/read/',markNotificationAsRead);
+router.delete('/user/notification/:notificationId/delete/',deleteNotification);
 
 // group management
 // router.post('/addGroup',addGroup);
