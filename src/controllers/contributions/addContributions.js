@@ -49,7 +49,12 @@ const getUserContributions=async(req,res)=>{
 
     try {
         const contributions=await Contribution.find({member:id}).sort({createdAt:-1});
-        return res.status(200).json({contributions});
+        return res.status(200).json({
+            message: "User contributions fetched successfully",
+            success: true,
+            contributions,
+            totalAmount :contributions.reduce((sum,item)=>sum+item.amount,0)
+        });
     } catch (error) {
         return res.status(500).json({message: error.message});
     }
