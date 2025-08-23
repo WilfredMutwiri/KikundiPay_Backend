@@ -7,14 +7,27 @@ const groupSchema=new Schema({
         required:true,
         unique:true
     },
-    members:{
-        type:Array,
-        required:true
-    },
-    shortname:{
+    members:[
+        {
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'User'
+        }
+    ],
+    code:{
         type:String,
         required:true,
-        unique:true
+        unique:true,
+        uppercase:true,
+        trim:true,
+    },
+    admin:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'User',
+        required:true,
+    },
+    timestamp:{
+        type:Date,
+        default:Date.now
     }
 });
 

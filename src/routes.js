@@ -50,9 +50,9 @@ router.patch('/user/notification/:notificationId/read/',markNotificationAsRead);
 router.delete('/user/notification/:notificationId/delete/',deleteNotification);
 
 // group management
-// router.post('/addGroup',addGroup);
-// router.get('/getGroups',getGroups);
-// router.get('/group/:id',getSingleGroup);
-// router.delete('/deleteGroup/:id',deleteGroup);
+router.post('/addGroup',addGroup);
+router.get('/getGroups',getGroups);
+router.get('/group/:id',getSingleGroup);
+router.delete('/deleteGroup/:id',deleteGroup);
 
 module.exports = router;

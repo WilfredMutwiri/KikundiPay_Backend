@@ -20,12 +20,15 @@ const userSchema = new Schema({
     required: true,
   },
   groupName: {
-    type: String,
-    required: true,
+    type:mongoose.Schema.Types.ObjectId,
+    ref:'Group',
+    required:false,
   },
   userRole: {
     type: String,
     required: true,
+    enum: ["admin", "member"],
+    default: "member",
   },
   resetOtp: {
     type: Number,
