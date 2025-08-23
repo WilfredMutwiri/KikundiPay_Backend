@@ -15,6 +15,7 @@ const {
   getGroups,
   getSingleGroup,
   deleteGroup,
+  getGroupMembersByMember,
 } = require("./controllers/groupManagement/manageGroup.js");
 
 const { userSignin } = require("./controllers/auth/userSignin.js");
@@ -54,5 +55,6 @@ router.post('/addGroup',addGroup);
 router.get('/getGroups',getGroups);
 router.get('/group/:id',getSingleGroup);
 router.delete('/deleteGroup/:id',deleteGroup);
+router.get('/group/members/:memberId',getGroupMembersByMember);
 
 module.exports = router;

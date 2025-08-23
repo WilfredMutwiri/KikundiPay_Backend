@@ -116,6 +116,47 @@ const updateGroup = async (req, res) => {
   }
 };
 
+// Get group members by member ID
+const getGroupMembersByMember = async (req, res) => {
+  const { memberId } = req.params;
+
+  try {
+    const group = await Group.findOne({ members: memberId })
+      .populate("members", "username email phoneNo userRole");
+
+    if (!group) {
+      return res.status(404).json({
+        message: "No group found for this member",
+        success: false,
+      });
+    }
+
+    // Reorder members: put the requesting member first and add a "You" tag
+    const reorderedMembers = group.members.map(m => {
+      if (m._id.toString() === memberId) {
+        return { ...m.toObject(), tag: "You" };
+      }
+      return m.toObject();
+    });
+
+    // Move "You" to the start
+    reorderedMembers.sort((a, b) => (a.tag === "You" ? -1 : 1));
+
+    return res.status(200).json({
+      message: "Members fetched successfully",
+      groupId: group._id,
+      groupName: group.name,
+      members: reorderedMembers,
+      success: true,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: error.message,
+      success: false,
+    });
+  }
+};
+
 // Delete a group
 const deleteGroup = async (req, res) => {
   try {
@@ -136,4 +177,5 @@ module.exports = {
   getSingleGroup,
   updateGroup,
   deleteGroup,
+  getGroupMembersByMember,
 };

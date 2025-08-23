@@ -1,4 +1,4 @@
-const express = require("express");
+const Group = require("../../models/groupModel");
 const User = require("../../models/userModel");
 const bcrypt = require("bcrypt");
 const Notification = require("../../models/notifications");
@@ -44,6 +44,16 @@ const userSignup = async (req, res) => {
       title: "Account Created Successfully",
       message: `Welcome aboard, ${username}! Your KikundiPay account is all set up.You can now participate in your group effectively!`,
     });
+
+    if (createdUser.groupName) {
+      const group = await Group.findById(createdUser.groupName);
+      if (group) {
+        group.members.push(createdUser._id);
+        await group.save();
+      } else {
+        return res.status(400).json({ message: "Group not found" });
+      }
+    }
 
     io.emit("notification",{
       title:newNotification.title,
