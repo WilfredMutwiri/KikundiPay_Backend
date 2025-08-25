@@ -1,11 +1,11 @@
 const Contribution = require('../../models/contributionsModel');
 
 const addContribution=async(req,res)=>{
-    let {amount,member,type}=req.body;
+    let {amount,member,type,group}=req.body;
     
     type=type.trim().toUpperCase()
 
-    if(!(amount && member && type)){
+    if(!(amount && member && type && group)){
         return res.status(400).json({message: 'All fields are required'});
     }
 
@@ -13,7 +13,8 @@ const addContribution=async(req,res)=>{
         const newContribution=new Contribution({
             amount,
             member,
-            type
+            type,
+            group
         });
 
         const createdContribution=await newContribution.save();
@@ -37,6 +38,29 @@ const getContributions=async(req,res)=>{
         return res.status(500).json({message: error.message});
     }
 };
+
+// getGroupContributions
+const getGroupContributions=async(req,res)=>{
+  let {groupId}=req.params;
+  try{
+    const groupContributions=await Contribution.find({group:groupId})
+    .populate("member")
+    .populate("group");
+
+    const totalAmount = groupContributions.reduce((sum, item) => sum + item.amount, 0);
+
+    return res.status(200).json({
+      message:"Group contributions fetched successfully!",
+      success:true,
+      contributions:groupContributions,
+      totalContributions:totalAmount
+    });
+  }catch(error){
+    return res.status(500).json({
+      message:error.message
+    })
+  }
+}
 
 // get user contributions
 const getUserContributions=async(req,res)=>{
@@ -106,5 +130,6 @@ module.exports={
     addContribution,
     getContributions,
     getUserContributions,
-    getUserContributionsByMonth
+    getUserContributionsByMonth,
+    getGroupContributions
 };

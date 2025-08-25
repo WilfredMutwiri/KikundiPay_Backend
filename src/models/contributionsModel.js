@@ -20,6 +20,11 @@ const contributionSchema = new mongoose.Schema({
     ref: "User",
     required: true,
   },
+  group:{
+    type:mongoose.Schema.Types.ObjectId,
+    ref:"Group",
+    required:true
+  }
 });
 
 contributionSchema.pre("save", function (next) {

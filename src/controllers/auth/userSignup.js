@@ -74,7 +74,10 @@ const userSignup = async (req, res) => {
 const getUserDetails = async (req, res) => {
   const { username } = req.params;
   try {
-    const userDetails = await User.findOne({ username });
+    const userDetails = await User.findOne({ username })
+    .populate("groupName","name")
+    .select("-password");
+
     return res.status(200).json({
       message:"User details fetched successfully!",
       succeess:true,
