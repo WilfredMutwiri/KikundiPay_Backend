@@ -41,7 +41,7 @@ router.post('/payments/addContribution/',addContribution);
 router.get('/payments/getContributions',getContributions);
 router.get('/payments/getUserContributions/:id',getUserContributions);
 router.get('/payments/getUserContributionsByMonth/:userId/:month/:year',getUserContributionsByMonth);
-router.get('/payments/getGroupContributions/:id',getGroupContributions) 
+router.get('/payments/getGroupContributions/:groupId',getGroupContributions) 
 
 // paystack
 router.post('/payments/init/',paystackInit)
