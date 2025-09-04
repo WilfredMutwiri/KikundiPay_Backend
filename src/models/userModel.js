@@ -27,7 +27,7 @@ const userSchema = new Schema({
   userRole: {
     type: String,
     required: true,
-    enum: ["admin", "member"],
+    enum: ["admin", "member","treasurer","secretary","communications director","chairperson"],
     default: "member",
   },
   resetOtp: {
