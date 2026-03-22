@@ -19,6 +19,10 @@ const userSchema = new Schema({
     type: Number,
     required: true,
   },
+  profilePicture: {
+    type: String,
+    default: "",
+  },
   groupName: {
     type:mongoose.Schema.Types.ObjectId,
     ref:'Group',

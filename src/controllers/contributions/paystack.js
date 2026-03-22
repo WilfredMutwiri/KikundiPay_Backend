@@ -10,6 +10,7 @@ const paystackInit = async (req, res) => {
       {
         email,
         amount: amount * 100,
+        callback_url: "https://standard.paystack.co/close",
       },
       {
         headers: {
@@ -19,7 +20,7 @@ const paystackInit = async (req, res) => {
       }
     );
 
-    console.log(process.env.PAYSTACK_SECRET_KEY);
+    console.log(process.env.PAYSTACK_SECRET_KEY);``
 
     res.status(200).json({
       authorization_url: response.data.data.authorization_url,

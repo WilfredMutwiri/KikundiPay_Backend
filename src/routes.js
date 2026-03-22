@@ -13,6 +13,8 @@ const {
 
 const {
   addGroup,
+  createGroup,
+  joinGroup,
   getGroups,
   getSingleGroup,
   deleteGroup,
@@ -25,6 +27,7 @@ const { requestOTP } = require("./controllers/auth/requestOTP.js");
 
 const express = require("express");
 const { resetPassword } = require("./controllers/auth/resetPassword.js");
+const { updateProfilePicture } = require("./controllers/auth/updateProfilePicture.js");
 const { paystackInit, verifyPayment } = require("./controllers/contributions/paystack.js");
 const { getUserNotifications, markNotificationAsRead, deleteNotification } = require("./controllers/notifications/manageNotifications.js");
 const router = express.Router();
@@ -35,6 +38,7 @@ router.get("/userDetails/:username", getUserDetails);
 router.post("/user/signin", userSignin);
 router.post("/user/requestOTP/",requestOTP)
 router.post("/user/resetPassword/",resetPassword)
+router.patch("/user/profile-picture", updateProfilePicture);
 
 // contributions
 router.post('/payments/addContribution/',addContribution);
@@ -54,6 +58,8 @@ router.delete('/user/notification/:notificationId/delete/',deleteNotification);
 
 // group management
 router.post('/addGroup',addGroup);
+router.post('/group/create',createGroup);
+router.post('/group/join',joinGroup);
 router.get('/getGroups',getGroups);
 router.get('/group/:id',getSingleGroup);
 router.delete('/deleteGroup/:id',deleteGroup);

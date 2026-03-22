@@ -24,7 +24,7 @@ const requestOTP = async (req, res) => {
     });
 
     await transporter.sendMail({
-      from: process.env.EMAIL_USER,
+      from: process.env.Email_User,
       to: email,
       subject: "KikundiPay Password Reset Verification Code",
       html: `<div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; border: 1px solid #eee; padding: 20px; border-radius: 8px;">

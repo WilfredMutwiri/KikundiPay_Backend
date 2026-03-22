@@ -171,8 +171,84 @@ const deleteGroup = async (req, res) => {
   }
 };
 
+// Create group for existing users
+const createGroup = async (req, res) => {
+  try {
+    const { name, description, contributionAmount, createdBy } = req.body;
+
+    if (!name || !createdBy) {
+      return res.status(400).json({ message: "Name and createdBy are required" });
+    }
+
+    const groupExists = await Group.findOne({ name });
+    if (groupExists) {
+      return res.status(400).json({ message: "Group with this name already exists" });
+    }
+
+    const user = await User.findById(createdBy);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Generate a simple 6-character uppercase code
+    const code = Math.random().toString(36).substring(2, 8).toUpperCase();
+
+    const newGroup = new Group({
+      name,
+      code,
+      description,
+      contributionAmount: contributionAmount || 0,
+      members: [user._id],
+      admin: user._id,
+    });
+
+    const createdGroup = await newGroup.save();
+
+    return res.status(201).json({
+      message: "Group created successfully",
+      group: createdGroup,
+      success: true,
+    });
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
+
+// Join a group
+const joinGroup = async (req, res) => {
+  try {
+    const { groupId, userId } = req.body;
+
+    if (!groupId || !userId) {
+      return res.status(400).json({ message: "Group ID and User ID are required" });
+    }
+
+    const group = await Group.findById(groupId);
+    if (!group) {
+      return res.status(404).json({ message: "Group not found" });
+    }
+
+    if (group.members.includes(userId)) {
+      return res.status(400).json({ message: "User is already a member of this group" });
+    }
+
+    group.members.push(userId);
+    await group.save();
+
+    return res.status(200).json({
+      message: "Successfully joined the group",
+      group,
+      success: true,
+    });
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
+
 module.exports = {
   addGroup,
+  createGroup,
+  joinGroup,
   getGroups,
   getSingleGroup,
   updateGroup,

@@ -7,12 +7,12 @@ const userSignup = async (req, res) => {
   const io = req.app.get("io");
   
   let { username, email, password, phoneNo, groupName, userRole } = req.body;
-  username = username.trim();
-  email = email.trim();
-  password = password.trim();
-  phoneNo = phoneNo.trim();
-  groupName = groupName.trim();
-  userRole = userRole.trim();
+  username = username?.trim();
+  email = email?.trim();
+  password = password?.trim();
+  phoneNo = phoneNo?.trim();
+  groupName = groupName?.trim();
+  userRole = userRole?.trim();
 
   if (!(username && email && password)) {
     return res.status(400).json({ message: "All fields are required" });

@@ -1,10 +1,11 @@
 const Contribution = require("../../models/contributionsModel");
+const Notification = require("../../models/notifications");
 const mongoose = require("mongoose");
 
 const addContribution = async (req, res) => {
   let { amount, member, type, group } = req.body;
 
-  type = type.trim().toUpperCase();
+  type = type?.trim().toUpperCase();
 
   if (!(amount && member && type && group)) {
     return res.status(400).json({ message: "All fields are required" });
@@ -60,7 +61,7 @@ const getContributions = async (req, res) => {
 const getGroupContributions = async (req, res) => {
   let { groupId } = req.params;
 
-  groupId = groupId.trim();
+  groupId = groupId?.trim();
 
   if (!mongoose.Types.ObjectId.isValid(groupId)) {
     return res.status(400).json({ message: "Invalid group id" });

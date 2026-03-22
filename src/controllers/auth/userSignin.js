@@ -6,8 +6,8 @@ const userSignin = async (req, res) => {
   try {
     let { username, password } = req.body;
     
-    username = username.trim();
-    password = password.trim();
+    username = username?.trim();
+    password = password?.trim();
 
     if (!username || !password) {
       return res.status(400).json({ message: "Invalid input" });
@@ -24,11 +24,17 @@ const userSignin = async (req, res) => {
       id: userExists._id,
       email:userExists.email
     }, process.env.JWT_SECRET,{expiresIn:'1h'});
+
+    // Check if the user is part of any group
+    const Group = require("../../models/groupModel");
+    const userGroup = await Group.findOne({ members: userExists._id });
+
     return res.status(200).json({
       success: true,
       token: token,
       username: username,
       id:userExists._id,
+      group: userGroup ? userGroup._id : null,
       message: "User signed in successfully",
     });
   } catch (error) {

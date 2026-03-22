@@ -20,6 +20,13 @@ const groupSchema=new Schema({
         uppercase:true,
         trim:true,
     },
+    description: {
+        type: String,
+    },
+    contributionAmount: {
+        type: Number,
+        default: 0
+    },
     admin:{
         type:mongoose.Schema.Types.ObjectId,
         ref:'User',
